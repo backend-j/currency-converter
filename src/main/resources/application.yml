@@ -1,3 +1,16 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug #로거를 통해 출력
+    org.hibernate.type: trace
+
 currency:
   api:
     url: http://apilayer.net/api/live
