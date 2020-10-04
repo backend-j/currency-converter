@@ -1,0 +1,5 @@
+currency:
+  api:
+    url: http://apilayer.net/api/live
+    access-key: ee50cd7cc73c9b7a7bb3d9617cfb6b9c
+    currencies: KRW,JPY,PHP
