@@ -5,7 +5,7 @@ currencylayer.com 의 환율 정보를 사용한 환율 계산기
 
 
 1. 사용 기술
-> SpringBoot, Java11, Spring Data JPA, H2 Database, Spring Validation, JQuery, JQuery Numbers
+> SpringBoot, Java11, Gradle, Spring Data JPA, H2 Database, Spring Validation, JQuery, JQuery Numbers
   
 2. 구현 시나리오
 - 환율 정보는 웹 애플리케이션 구동 시 1회 조회하여 Database에 저장한다.
@@ -14,3 +14,6 @@ currencylayer.com 의 환율 정보를 사용한 환율 계산기
 - 송금액은 서버에서 계산하여 출력한다.
 - API 요청 정보는 설정 파일으로 관리한다.
 
+3. 테스트
+- 핵심 로직(수취 금액 변환) 단위 테스트
+- MockMvc를 통한 통합테스트
