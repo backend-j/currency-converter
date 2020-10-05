@@ -11,18 +11,20 @@ class AmountReceivedTest {
     @Test
     @DisplayName("생성 테스트")
     void create() {
-        RequestDto currency = getRequestCurrency();
+        double exchangeRate = 10.0;
+        double remittance = 100.0;
+        RequestDto currency = getRequestCurrency(exchangeRate, remittance);
 
         assertThatCode(() -> {
             new AmountReceived(currency);
         }).doesNotThrowAnyException();
     }
 
-    private RequestDto getRequestCurrency() {
+    private RequestDto getRequestCurrency(double exchangeRate, double remittance) {
         RequestDto currency = RequestDto.builder()
                 .receivingCountry("KRW")
-                .exchangeRate(10.0)
-                .remittance(100.0)
+                .exchangeRate(exchangeRate)
+                .remittance(remittance)
                 .build();
         return currency;
     }
@@ -34,11 +36,7 @@ class AmountReceivedTest {
         //given
         double exchangeRate = 10.0;
         double remittance = 100.0;
-        RequestDto currency = RequestDto.builder()
-                .receivingCountry("KRW")
-                .exchangeRate(exchangeRate)
-                .remittance(remittance)
-                .build();
+        RequestDto currency = getRequestCurrency(exchangeRate, remittance);
 
         //when
         AmountReceived amountReceived = new AmountReceived(currency);
