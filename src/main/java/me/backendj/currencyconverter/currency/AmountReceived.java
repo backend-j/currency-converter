@@ -1,7 +1,6 @@
 package me.backendj.currencyconverter.currency;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import me.backendj.currencyconverter.currency.dto.RequestDto;
 
 @Getter
