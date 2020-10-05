@@ -18,7 +18,7 @@ import javax.validation.Valid;
 @Controller
 public class CurrencyController {
 
-    private final CurrencyRepository repository;
+    private final CurrencyRepository currencyRepository;
     private final CurrencyValidator currencyValidator;
 
     @GetMapping("/")
@@ -29,7 +29,7 @@ public class CurrencyController {
     @GetMapping("/currency")
     @ResponseBody
     public ResponseDto findByCurrency(@RequestParam String receivingCountry) throws NotFoundException {
-        Currency currency = repository.findByReceivingCountry(receivingCountry)
+        Currency currency = currencyRepository.findByReceivingCountry(receivingCountry)
                 .orElseThrow(() -> new NotFoundException(receivingCountry));
         return ResponseDto.toDto(currency);
     }
@@ -44,19 +44,5 @@ public class CurrencyController {
 
         AmountReceived result = new AmountReceived(currency);
         return ResponseEntity.ok().body(result);
-    }
-
-    @Data
-    @NoArgsConstructor
-    static class AmountReceived {
-        private Double amountReceived;
-
-        public AmountReceived(RequestDto currency) {
-            this.amountReceived = convert(currency);
-        }
-
-        private Double convert(RequestDto currency) {
-            return currency.getExchangeRate() * currency.getRemittance();
-        }
     }
 }
