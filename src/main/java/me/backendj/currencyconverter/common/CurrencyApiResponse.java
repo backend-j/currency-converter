@@ -14,7 +14,7 @@ import java.util.Map;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CurrencyApiResponse {
-    boolean success;
+    private boolean success;
     @JsonProperty("quotes")
-    Map<String, Double> quotes;
+    private Map<String, Double> quotes;
 }

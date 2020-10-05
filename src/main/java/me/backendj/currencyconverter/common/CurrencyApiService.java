@@ -4,10 +4,7 @@ import me.backendj.currencyconverter.currency.Currency;
 import me.backendj.currencyconverter.currency.CurrencyRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -44,19 +41,23 @@ public class CurrencyApiService {
         httpHeaders.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
         HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
-        CurrencyApiResponse CurrencyAPIResponse = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, httpEntity, CurrencyApiResponse.class).getBody();
-        //1시간에 한 번씩 환율 정보 업데이트
-        currencyRepository.deleteAll();
-        CurrencyAPIResponse.getQuotes().entrySet().stream()
-                .forEach(e -> {
-                    Currency currency = Currency.builder()
-                            .source("USD")
-                            .quotes(e.getKey())
-                            .receivingCountry(e.getKey().substring(3))
-                            .exchangeRate(e.getValue())
-                            .timestamp(LocalDateTime.now())
-                            .build();
-                    currencyRepository.save(currency);
-                });
+        ResponseEntity<CurrencyApiResponse> responseEntity = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, httpEntity, CurrencyApiResponse.class);
+        if (responseEntity.getStatusCode().is2xxSuccessful()) {
+            //1시간에 한 번씩 환율 정보 업데이트
+            CurrencyApiResponse CurrencyAPIResponse = responseEntity.getBody();
+            currencyRepository.deleteAll();
+            CurrencyAPIResponse.getQuotes().entrySet()
+                    .forEach(e -> {
+                        Currency currency = Currency.builder()
+                                .source("USD")
+                                .quotes(e.getKey())
+                                .receivingCountry(e.getKey().substring(3))
+                                .exchangeRate(e.getValue())
+                                .timestamp(LocalDateTime.now())
+                                .build();
+                        currencyRepository.save(currency);
+                    });
+        }
+
     }
 }

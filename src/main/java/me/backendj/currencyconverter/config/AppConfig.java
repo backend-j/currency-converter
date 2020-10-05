@@ -9,18 +9,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.time.Duration;
-
 @Configuration
 @EnableScheduling
 public class AppConfig {
 
     @Bean
     public RestTemplateBuilder restTemplateBuilder() {
-        RestTemplateBuilder builder = new RestTemplateBuilder();
-        builder.setConnectTimeout(Duration.ofDays(15000));
-        builder.setReadTimeout(Duration.ofDays(15000));
-        return builder;
+        return new RestTemplateBuilder();
     }
 
     @Bean
