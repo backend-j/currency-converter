@@ -9,7 +9,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Builder
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class RequestDto {
 
@@ -19,5 +20,6 @@ public class RequestDto {
     @NotNull(message = "환율 정보가 없습니다")
     private Double exchangeRate;
 
+    @NotNull(message = "송금액을 입력하세요.")
     private Double remittance;
 }
